@@ -1,7 +1,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
     <head>
-        <title>Chalk</title>
+        <title>HOTIL</title>
         <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
         <link rel="stylesheet" type="text/css" href="{{ MEDIA_URL }}css/layout.css" />
         <link rel="stylesheet" type="text/css" href="{{ MEDIA_URL }}css/default.css" />
@@ -21,12 +21,12 @@
     <body>
         <div id="header">
             <div id="contents">
-                <div id="hotil"><p id="hotil-title">HOTIL</p></div>
+                <div id="hotil"><p id="hotil-title" onclick="window.location='/'">HOTIL</p></div>
                 <p class="menu">notice</p>
                 <p class="menu">lecture</p>
                 <p class="menu" onclick="window.location='/'">problem</p>
                 <p class="menu">board</p>
-                <p id="account">login</p>
+                <p id="account" onclick="loginDialog();">login</p>
             </div>
         </div>
         <div id="container">
@@ -39,5 +39,6 @@
             <p>Daecheol Park - dcpark1992@gmail.com</p>
             <p>Jupeong Kim - recollecting1234@gmail.com</p>
         </div>
+        {% csrf_token %}
     </body>
 </html>

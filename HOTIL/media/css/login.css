@@ -1,0 +1,64 @@
+table
+{
+    margin:auto;
+    border-spacing:20px;
+}
+
+table td
+{
+    padding:0px;
+    margin:0px;
+}
+
+td .text
+{
+    text-transform:uppercase;
+    font-size:20px;
+    height:40px;
+    line-height:40px;
+    font-weight:bold;
+    color:rgb(82,82,82);
+}
+
+input[type=text],
+input[type=password]
+{
+    width:250px;
+    height:35px;
+    margin:0px;
+    margin-left:10px;
+    font-size:20px;
+}
+
+#buttons
+{
+    width:400px;
+    padding-top:10px;
+}
+
+.button
+{
+    width:150px;
+    height:50px;
+    padding:0px;
+    border:0px;
+    margin:0px 25px;
+    float:left;
+    background:rgb(193,199,189);
+    color:white;
+    text-transform:uppercase;
+    font-size:20px;
+    line-height:50px;
+    text-align:center;
+    border-radius:10px;
+}
+
+.button:hover
+{
+    background:rgb(240,144,70);
+}
+
+#submit-button
+{
+    margin-left:k
+}

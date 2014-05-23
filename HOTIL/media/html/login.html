@@ -1,0 +1,33 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <title>HOTIL</title>
+        <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
+        <link rel="stylesheet" type="text/css" href="/media/css/default.css" />
+        <link rel="stylesheet" type="text/css" href="/media/css/login.css" />
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+        <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
+        <script language="javascript" src="/media/js/default.js"></script>
+        <script language="javascript" src="/media/js/layout.js"></script>
+    </head>
+    <body>
+        <form action="/login/" method='POST'>
+            <table>
+                <tr>
+                    <td><p class="text">id</p></td>
+                    <td><input type="text" name="id" maxlength="40"></td>
+                </tr>
+                <tr>
+                    <td><p class="text">password</p></td>
+                    <td> <input type="password" name="password" maxlength="20"> </td>
+                </tr>
+                <tr>
+                    <td id="buttons" colspan=2>
+                        <p id="submit-button" class="button" onclick="ajaxLogin();">login</p>
+                        <p id="sign-up-button" class="button" onclick="window.location='/signup/'">sign up</p>
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </body>
+</html>
