@@ -10,6 +10,13 @@
         <script language="javascript" src="{{ MEDIA_URL }}js/default.js"></script>
         <script language="javascript" src="{{ MEDIA_URL }}js/layout.js"></script>
         {% block header %}{% endblock %}
+        <script>
+            $(document).ready(function(){
+                // automatically fix height of container
+                window.onload = autoHeight;
+                window.onresize = autoHeight;
+            });
+        </script>
     </head>
     <body>
         <div id="header">
