@@ -12,6 +12,11 @@
         {% block header %}{% endblock %}
         <script>
             $(document).ready(function(){
+                setting_fold = true;
+                $('body > div:not(#float)').click(function(){
+                    if(!setting_fold) fold_setting();
+                });
+
                 // automatically fix height of container
                 window.onload = autoHeight;
                 window.onresize = autoHeight;
@@ -24,10 +29,35 @@
                 <div id="hotil"><p id="hotil-title" onclick="window.location='/'">HOTIL</p></div>
                 <p class="menu">notice</p>
                 <p class="menu">lecture</p>
-                <p class="menu" onclick="window.location='/'">problem</p>
+                {% if user.is_authenticated %}
+                <p id="user-name">
+                    {{ user.first_name }}
+                    <b>
+                        {% if user.is_staff %}
+                        (관리자)
+                        {% else %}
+                        (학생)
+                        {% endif %}
+                    </b>
+                </p>
+                <p class="menu" onclick="window.location='/problem/'">problem</p>
+                {% else %}
+                <p class="menu" onclick="alert('로그인 후에 이용해 주세요.')">problem</p>
+                {% endif %}
                 <p class="menu">board</p>
-                <p id="account" onclick="loginDialog();">login</p>
             </div>
+        </div>
+        <div id="float">
+            {% if user.is_authenticated %}
+            <p id="account" onclick="unfold_setting();">setting</p>
+            <div id="black">
+                <p class="menu" onclick="fold_setting();">setting</p>
+                <p class="menu">mypage</p>
+                <p class="menu" onclick="ajaxLogout();">logout</p>
+            </div>
+            {% else %}
+            <p id="account" onclick="loginDialog();">login</p>
+            {% endif %}
         </div>
         <div id="container">
             {% block content %}{% endblock %}

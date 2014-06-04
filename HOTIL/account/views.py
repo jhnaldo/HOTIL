@@ -8,12 +8,33 @@ from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.models import User
 
 def signup(request):
-    return render_to_response('account/signup.html', {
-    }, context_instance=RequestContext(request))
+    if request.method == 'POST':
+        user_id = request.POST.get('id','')
+        password = request.POST.get('password','')
+        name = request.POST.get('name','')
+        user_type = request.POST.get('usertype','')
+
+        user = User.objects.create_user(username=user_id, password=password)
+        user.first_name = name
+        user.is_staff = user_type=='manager'
+        user.save()
+
+        return HttpResponseRedirect('/');
+    else:
+        return render_to_response('account/signup.html', {
+        }, context_instance=RequestContext(request))
+
+@csrf_exempt
+def _logout(request):
+    print 1
+    if request.method == 'POST':
+        logout(request)
+        return HttpResponse(0)
+    else:
+        return HttpResponseRedirect('/')
 
 @csrf_exempt
 def _login(request):
-    print request.method
     if request.method == 'POST':
         user_id = request.POST.get('id','')
         password = request.POST.get('passwd','')
@@ -29,6 +50,9 @@ def _login(request):
     else:
         return HttpResponseRedirect('/')
 
-def _logout(request):
-    return render_to_response('account/login.html.html', {
-    }, context_instance=RequestContext(request))
+@csrf_exempt
+def id_check(request):
+    username = request.POST.get('id','')
+    count = len(User.objects.filter(username=username))
+    print count
+    return HttpResponse(count)

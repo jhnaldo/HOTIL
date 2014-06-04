@@ -1,0 +1,25 @@
+{% extends 'layout.html' %}
+{% block header %}
+<link rel="stylesheet" type="text/css" href="{{MEDIA_URL}}css/board.css" />
+<script language="javascript" src="{{ MEDIA_URL }}js/board.js"></script>
+{% endblock %}
+{% block content %}
+<div id="board">
+    <table>
+        <tr>
+            <th width=100px><p>번호</p></td>
+            <th><p>제목</p></td>
+            <th width=100px><p>작성자</p></td>
+            <th width=200px><p>등록일</p></td>
+        </tr>
+        {% for question in questions %}
+        <tr>
+            <td><p>{{ forloop.counter }}</p></td>
+            <td><p>{{ question.title }}</p></td>
+            <td><p>{{ question.writer.fisrt_name }}</p></td>
+            <td><p>{{ question.created|date:"Y-m-d" }}</p></td>
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+{% endblock %}

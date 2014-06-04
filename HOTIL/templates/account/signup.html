@@ -1,6 +1,7 @@
 {% extends 'layout.html' %}
 {% block header %}
 <link rel="stylesheet" type="text/css" href="{{MEDIA_URL}}css/account.css" />
+<script language="javascript" src="{{ MEDIA_URL }}js/account.js"></script>
 {% endblock %}
 {% block content %}
 <div id="signup">
@@ -8,24 +9,32 @@
         {% csrf_token %}
         <table>
             <tr>
-                <td>ID</td>
+                <td><p class="sub_title">ID</p></td>
                 <td><input type="text" name="id" value="{{ id }}"></td>
             </tr>
             <tr>
-                <td>PASSWORD</td>
+                <td><p class="sub_title">PASSWORD</p></td>
                 <td><input type="password" name="password" value="{{ password }}"></td>
             </tr>
             <tr>
-                <td>RE-PASSWORD</td>
-                <td><input type="password" name="password" value="{{ password }}"></td>
+                <td><p class="sub_title">RE-PASSWORD</p></td>
+                <td><input type="password" name="re-password" value="{{ password }}"></td>
             </tr>
             <tr>
-                <td>NAME</td>
+                <td><p class="sub_title">NAME</p></td>
                 <td><input type="text" name="name" value="{{ name }}"></td>
             </tr>
             <tr>
                 <td colspan=2>
-                    <p id="submit" onclick="$('#signup-form').submit();">SUBMIT</p>
+                    <p class="usertype">Manager</p>
+                    <input type="radio" name="usertype" value="manager" checked=checked>
+                    <p class="usertype">Student</p>
+                    <input type="radio" name="usertype" value="student">
+                </td>
+            </tr>
+            <tr>
+                <td colspan=2>
+                    <p id="submit" onclick="signup();">submit</p>
                 </td>
             </tr>
         </table>

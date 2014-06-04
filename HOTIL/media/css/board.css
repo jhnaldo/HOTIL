@@ -1,0 +1,45 @@
+#board
+{
+    width:1000px;
+    height:500px;
+    margin:100px auto;
+    border-top:5px solid rgb(32,56,100);
+}
+
+#board table
+{
+    width:1000px;
+    border-spacing:0px;
+    border-collapse:collapse;
+}
+
+#board table th
+{
+    background:rgb(217,217,217);
+}
+
+#board table th p
+{
+    font-size:15px;
+    text-align:center;
+    height:30px;
+    line-height:30px;
+}
+
+#board table tr
+{
+    border-bottom:1px solid rgb(171,171,171);
+}
+
+#board table td
+{
+    background:white;
+}
+
+#board table td p
+{
+    font-size:15px;
+    text-align:center;
+    height:20px;
+    line-height:20px;
+}

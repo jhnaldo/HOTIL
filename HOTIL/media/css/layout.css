@@ -1,7 +1,10 @@
 html,body
 {
+    min-width:1000px;
     margin:0px;
     padding:0px;
+    position:relative;
+    overflow:auto;
 }
 
 #header
@@ -58,29 +61,30 @@ html,body
 
 #header .menu:hover
 {
-    background:rgb(240,144,70);
+    background:rgb(82,82,82);
 }
 
-#header #account
+#header #user-name
 {
     margin:9px 10px;
+    margin-right:132px;
     height:40px;
     line-height:40px;
-    width:100px;
+    width:150px;
     float:right;
     font-size:18px;
     color:rgb(82,82,82);
     border-radius:10px;
-    border:1px solid rgb(82,82,82);
+    border:1px solid rgb(152,152,152);
     text-align:center;
     text-transform:uppercase;
     cursor:default;
 }
 
-#header #account:hover
+#header #user-name b
 {
-    background:rgb(82,82,82);
-    color:white;
+    font-size:15px;
+    color:rgb(197,90,17);
 }
 
 #container
@@ -157,4 +161,66 @@ html,body
 {
     float:left;
     height:240px;
+}
+
+#float
+{
+    position:absolute;
+    top:80px;
+    right:0px;
+    width:122px;
+    height:182px;
+}
+
+#float #account
+{
+    margin:9px 10px;
+    height:40px;
+    line-height:40px;
+    width:100px;
+    float:right;
+    font-size:18px;
+    color:rgb(82,82,82);
+    border-radius:10px;
+    border:1px solid rgb(82,82,82);
+    text-align:center;
+    text-transform:uppercase;
+    cursor:default;
+}
+
+#float #account:hover
+{
+    background:rgb(193,199,189);
+    color:white;
+}
+
+#float #black
+{
+    position:absolute;
+    width:122px;
+    height:0px;
+    background:rgba(0,0,0,0.2);
+    border-radius:20px;
+    overflow:hidden;
+}
+
+#float .menu
+{
+    margin:9px 10px;
+    height:40px;
+    line-height:40px;
+    width:100px;
+    float:right;
+    font-size:18px;
+    color:white;
+    border-radius:10px;
+    border:1px solid rgb(82,82,82);
+    text-align:center;
+    text-transform:uppercase;
+    cursor:default;
+}
+
+#float .menu:hover
+{
+    background:rgb(82,82,82);
 }

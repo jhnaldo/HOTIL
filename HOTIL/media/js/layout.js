@@ -4,8 +4,9 @@ function autoHeight(){
     var container_height = parseInt($('#container').outerHeight());
     if(container_height < height){
         $('#container').css('height', height+'px');
-        $('#background').css('height', window_height+'px');
     }
+
+    $('#background').css('height', parseInt($('body').outerHeight())+'px');
     centerLoginWindow();
 }
 
@@ -22,9 +23,7 @@ function loginDialog(){
 
     var login_content = $('<div>', {'id':'login-content'});
     login_content.appendTo(login_div);
-    login_content.load('/media/html/login.html');
-
-    centerLoginWindow();
+    login_content.load('/media/html/login.html',autoHeight);
 }
 
 function closeLogin(){
@@ -33,10 +32,25 @@ function closeLogin(){
 }
 
 function centerLoginWindow(){
-    var window_height = parseInt($(window).outerHeight());
+    var body_height = parseInt($('body').outerHeight());
     var header_width = parseInt($('#header').outerWidth());
     $('#login').css('margin-left', (header_width-500)/2+'px');
-    $('#login').css('margin-top', (window_height-300)/2+'px');
+    $('#login').css('margin-top', (body_height-300)/2+'px');
+}
+
+function ajaxLogout(){
+    $.ajax({
+        url: '/logout/',
+        type: 'POST',
+        dataType : 'json',
+        success:function(result){
+            alert('로그아웃 되었습니다.');
+            window.location='/';
+        },
+        error:function(e){
+            console.log(e);
+        }
+    });
 }
 
 function ajaxLogin(){
@@ -51,7 +65,6 @@ function ajaxLogin(){
         dataType : 'json',
         data: data,
         success:function(result){
-            console.log(result);
             switch(result){
                 case -1:
                     alert('잘못된 입력입니다.');
@@ -60,7 +73,7 @@ function ajaxLogin(){
                     alert('존재하지 않는 아이디 혹은 잘못된 비밀번호입니다.');
                     break;
                 case 1:
-                    alert('로그인 완료');
+                    window.location='/';
                     break;
             }
         },
@@ -68,4 +81,14 @@ function ajaxLogin(){
             console.log('[ERROR] '+e);
         }
     });
+}
+
+function unfold_setting(){
+    $('#float #black').css('height', '182px');
+    setting_fold = false;
+}
+
+function fold_setting(){
+    $('#float #black').css('height', '0px');
+    setting_fold = true;
 }
