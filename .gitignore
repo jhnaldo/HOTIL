@@ -2,3 +2,4 @@
 *.db
 .*.swp
 *.orig
+HOTIL/media/html/*

@@ -3,4 +3,5 @@ from django.http import *
 
 urlpatterns = patterns('',
     (ur'^$', 'board.views.index'),
+    (ur'^upload/$', 'board.views.upload'),
 )

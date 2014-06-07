@@ -2,10 +2,24 @@
 {% block header %}
 <link rel="stylesheet" type="text/css" href="{{MEDIA_URL}}css/board.css" />
 <script language="javascript" src="{{ MEDIA_URL }}js/board.js"></script>
+<script language="javascript" src="{{ MEDIA_URL }}js/filedrop.js"></script>
+<script>
+$(document).ready(function(){
+    upload_files = new FormData();
+    file_num = 0;
+
+    var file_input = $('#zbasic input[type=file]')[0];
+    if(file_input.addEventListener){
+        file_input.addEventListener("change", handleFileSelect, false);
+    }else{
+        file_input.attachEvent("change", handleFileSelect, false);
+    }
+});
+</script>
 {% endblock %}
 {% block content %}
 <div id="board">
-    <table>
+    <table id="question-list">
         <tr>
             <th width=100px><p>번호</p></td>
             <th><p>제목</p></td>
@@ -21,5 +35,17 @@
         </tr>
         {% endfor %}
     </table>
+    {% if user.is_staff %}
+    <p id="upload" onclick="unfold_upload();">upload</p>
+    <div id="upload-window">
+        <p class="descript">Please upload porblem files.</p>
+        <p class="descript">(drag-and-drop is possible.)</p>
+        <fieldset id="zbasic" ondragenter="onDragEnter(event)" ondrop="onDrop(event)">
+            <input type="file" multiple>
+        </fieldset>
+        <img id="close" src="/media/image/x.png" onclick="fold_upload();">
+        <p id="upload-button" onclick="upload();">upload</p>
+    </div>
+    {% endif %}
 </div>
 {% endblock %}

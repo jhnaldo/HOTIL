@@ -4,21 +4,22 @@
     height:500px;
     margin:100px auto;
     border-top:5px solid rgb(32,56,100);
+    position:relative;
 }
 
-#board table
+#board table#question-list
 {
     width:1000px;
     border-spacing:0px;
     border-collapse:collapse;
 }
 
-#board table th
+#board table#question-list th
 {
     background:rgb(217,217,217);
 }
 
-#board table th p
+#board table#question-list th p
 {
     font-size:15px;
     text-align:center;
@@ -26,20 +27,128 @@
     line-height:30px;
 }
 
-#board table tr
+#board table#question-list tr
 {
     border-bottom:1px solid rgb(171,171,171);
 }
 
-#board table td
+#board table#question-list td
 {
     background:white;
 }
 
-#board table td p
+#board table#question-list td p
 {
     font-size:15px;
     text-align:center;
     height:20px;
     line-height:20px;
+}
+
+#board p#upload
+{
+    width:100px;
+    height:30px;
+    font-size:18px;
+    float:right;
+    background:rgb(171,171,171);
+    border-radius:5px;
+    color:white;
+    margin-top:10px;
+    text-align:center;
+    line-height:30px;
+    cursor:default;
+    text-decoration:none;
+    position:absolute;
+    right:0px;
+    bottom:0px;
+}
+
+#board p#upload:hover
+{
+    background:rgb(82,82,82);
+}
+
+#board div#upload-window
+{
+    position:absolute;
+    right:0px;
+    bottom:0px;
+    width:700px;
+    height:300px;
+    background:white;
+    border:3px solid rgb(82,82,82);
+    border-radius:10px;
+    display:none;
+}
+
+#upload-window .descript
+{
+    margin-left:10px;
+    margin-top:10px;
+}
+
+#upload-window #zbasic
+{
+    margin-top:20px;
+    margin-left:10px;
+    width:650px;
+    height:150px;
+    background:rgb(230,230,230);
+    border-radius:20px;
+    border:3px dotted rgb(82,82,82);
+    overflow:auto;
+}
+
+#upload-window #zbasic:hover
+{
+    border-color:rgb(240,144,70);
+}
+
+#upload-window #zbasic div
+{
+    width:0px;
+    height:0px;
+}
+
+#upload-window #zbasic input[type=file]
+{
+    opacity:0;
+    cursor:pointer;
+    width:650px;
+    height:150px;
+    position:absolute;
+}
+
+#upload-window img#close
+{
+    width:30px;
+    height:30px;
+    position:absolute;
+    right:10px;
+    top:10px;
+    cursor:pointer;
+}
+
+#upload-window p#upload-button
+{
+    width:100px;
+    height:30px;
+    font-size:18px;
+    float:right;
+    background:rgb(171,171,171);
+    border-radius:5px;
+    color:white;
+    margin-top:10px;
+    text-align:center;
+    line-height:30px;
+    cursor:default;
+    position:absolute;
+    right:10px;
+    bottom:10px;
+}
+
+#upload-window p#upload-button:hover
+{
+    background:rgb(82,82,82);
 }
