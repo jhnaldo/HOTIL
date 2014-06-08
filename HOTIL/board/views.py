@@ -177,6 +177,8 @@ def HEq2TeX(eq):
 	return HEqGrammar.parse(eq.replace(u"±", "+-").replace(u"÷", " DIVIDE "), conv)
 
 def HWPtoText(filename):
+	def escape(s):
+		return s.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
 	f = Hwp5File(filename)
 	l = []
 	e, ei = [], 0
@@ -193,13 +195,13 @@ def HWPtoText(filename):
 		p = o[1]
 		if o[0] is STARTEVENT:
 			if p[0] is Paragraph:
-				pass # l.append("<p>")
+				l.append("<p>")
 			if p[0] is Text:
-				l.append(p[1]['text'])
+				l.append(escape(p[1]['text']))
 			elif p[0] is EqEdit:
-				l.append("$%s$" % e[ei])
+				l.append("$%s$" % escape(e[ei]))
 				ei += 1
 		else:
 			if p[0] is Paragraph:
-				l.append("\n") # l.append("</p>\n")
+				l.append("</p>\n")
 	return ''.join(l)
