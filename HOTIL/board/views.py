@@ -90,13 +90,15 @@ def delete(request):
 
 
 ##################################      PARSER
+
 def Kwd(k):
 	return Keyword(k, case=False)
 
 class HEqGrammar(Grammar):
 	class T(TokenRegistry):
-		value = Token(re="[0-9A-Za-z()]+")
+		value = Token(re="[0-9A-Za-z.]+")
 		op = Tokens("+- -+ -> + - * / = != < > ,")
+		u_op = Tokens("% ( ) `")
 	expr = Ref("expr")
 	atom = Ref("atom")
 	frac_atom = atom << Kwd('over') << atom
@@ -109,8 +111,7 @@ class HEqGrammar(Grammar):
 	concat_atom = atom << atom
 	atom = Prio(
 		paren_atom | frac_atom | root_atom | lim_atom,
-		T.value,
-		'`',
+		T.value | T.u_op,
 		concat_atom
 	)
 	s_atom = atom + Repeat('_' + atom) + Repeat('^' + atom)
@@ -122,7 +123,6 @@ class HEqGrammar(Grammar):
 	START = expr
 
 def conv(tree):
-	# print(tree)
 	nt, G = tree[0], HEqGrammar
 	if nt is G.frac_atom:
 		return "\\frac %s %s" % (tree[1], tree[3])
@@ -157,6 +157,8 @@ def conv(tree):
 		return tree[1]
 	if nt is G.START:
 		return tree[1]
+	if tree[1] == '%':
+		return '\%'
 	if tree[1] == '`':
 		return '\ '
 	if tree[1] == '+-':
@@ -171,29 +173,29 @@ def HEq2TeX(eq):
 	return HEqGrammar.parse(eq.replace(u"±", "+-").replace(u"÷", " DIVIDE "), conv)
 
 def HWPtoText(filename):
-    f = Hwp5File(filename)
-    l = []
-    e, ei = [], 0
-    for section in f.bodytext.sections:
-        for record in section.records():
-            if record['tagname'] == 'HWPTAG_CTRL_EQEDIT':
-                s = record['payload']
-                eql = ord(s[4]) + 256*ord(s[5])
-                eq = []
-                for i in xrange(eql):
-                    eq.append(unichr(ord(s[6+i*2])+256*ord(s[7+i*2])))
-                e.append(HEq2TeX(''.join(eq)))
-    for o in f.events():
-        p = o[1]
-        if o[0] is STARTEVENT:
-            if p[0] is Paragraph:
-                l.append("<p>")
-            if p[0] is Text:
-                l.append(p[1]['text'])
-            elif p[0] is EqEdit:
-                l.append("$%s$" % e[ei])
-                ei += 1
-        else:
-            if p[0] is Paragraph:
-                l.append("</p>\n")
-    return ''.join(l)
+	f = Hwp5File(filename)
+	l = []
+	e, ei = [], 0
+	for section in f.bodytext.sections:
+		for record in section.records():
+			if record['tagname'] == 'HWPTAG_CTRL_EQEDIT':
+				s = record['payload']
+				eql = ord(s[4]) + 256*ord(s[5])
+				eq = []
+				for i in xrange(eql):
+					eq.append(unichr(ord(s[6+i*2])+256*ord(s[7+i*2])))
+				e.append(HEq2TeX(''.join(eq)))
+	for o in f.events():
+		p = o[1]
+		if o[0] is STARTEVENT:
+			if p[0] is Paragraph:
+				pass # l.append("<p>")
+			if p[0] is Text:
+				l.append(p[1]['text'])
+			elif p[0] is EqEdit:
+				l.append("$%s$" % e[ei])
+				ei += 1
+		else:
+			if p[0] is Paragraph:
+				l.append("\n") # l.append("</p>\n")
+	return ''.join(l)
