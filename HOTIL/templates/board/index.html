@@ -14,6 +14,9 @@ $(document).ready(function(){
     }else{
         file_input.attachEvent("change", handleFileSelect, false);
     }
+
+    pagenum=1;
+    page_load();
 });
 </script>
 {% endblock %}
@@ -21,31 +24,27 @@ $(document).ready(function(){
 <div id="board">
     <table id="question-list">
         <tr>
-            <th width=100px><p>번호</p></td>
-            <th><p>제목</p></td>
-            <th width=100px><p>작성자</p></td>
-            <th width=200px><p>등록일</p></td>
+            <th width=100px><p>NUM</p></td>
+            <th><p>TITLE</p></td>
+            <th width=100px><p>WRITER</p></td>
+            <th width=200px><p>DATE</p></td>
         </tr>
-        {% for question in questions %}
-        <tr>
-            <td><p>{{ forloop.counter }}</p></td>
-            <td><p>{{ question.title }}</p></td>
-            <td><p>{{ question.writer.fisrt_name }}</p></td>
-            <td><p>{{ question.created|date:"Y-m-d" }}</p></td>
-        </tr>
-        {% endfor %}
     </table>
     {% if user.is_staff %}
     <p id="upload" onclick="unfold_upload();">upload</p>
     <div id="upload-window">
         <p class="descript">Please upload porblem files.</p>
         <p class="descript">(drag-and-drop is possible.)</p>
-        <fieldset id="zbasic" ondragenter="onDragEnter(event)" ondrop="onDrop(event)">
+        <fieldset id="zbasic" ondragenter="onDragEnter(event)" ondragover="onDragOver(event);" ondragleave="onDragLeave(event);" ondrop="onDrop(event)">
             <input type="file" multiple>
         </fieldset>
         <img id="close" src="/media/image/x.png" onclick="fold_upload();">
         <p id="upload-button" onclick="upload();">upload</p>
     </div>
     {% endif %}
+    <form action="/problem/search/" method="POST" id="search-form">
+        <input type="text" name="find">
+        <input type="submit" value="Search">
+    </form>
 </div>
 {% endblock %}

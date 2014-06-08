@@ -1,0 +1,36 @@
+{% extends 'layout.html' %}
+{% block header %}
+<link rel="stylesheet" type="text/css" href="{{MEDIA_URL}}css/board.css" />
+<script language="javascript" src="{{ MEDIA_URL }}js/board.js"></script>
+<script>
+$(document).ready(function(){
+    $('iframe').load(function() {
+        var frame = $(this)[0];
+        var doc = frame.contentDocument;
+        $(this).height(doc.getElementById('problem').offsetHeight+"px");
+    });
+});
+</script>
+{% endblock %}
+{% block content %}
+<div id="show">
+    <table>
+        <tr>
+            <th><p>TITLE</p></td>
+            <td id="title-td"><p>{{ problem.title }}</p></td>
+            <th><p>WRITER</p></td>
+            <td><p>{{ problem.writer.first_name }}</p></td>
+            <th><p>DATE</p></td>
+            <td><p>{{ problem.created|date:"Y-m-d" }}</p></td>
+        </tr>
+        <tr>
+            <td id="problem" colspan=6>
+            <iframe class="problem" src="{{ MEDIA_URL }}problem/{{ problem.html }}" frameborder="0" scrolling="no"></iframe>
+            </td>
+        </tr>
+    </table>
+    <p class='button left' onclick="window.location='/problem/'">list</p>
+    <p class='button right'>edit</p>
+    <p class='button right' onclick="del_problem({{ problem.id }});">delete</p>
+</div>
+{% endblock %}

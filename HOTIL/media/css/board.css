@@ -1,7 +1,7 @@
 #board
 {
     width:1000px;
-    height:500px;
+    height:520px;
     margin:100px auto;
     border-top:5px solid rgb(32,56,100);
     position:relative;
@@ -23,26 +23,38 @@
 {
     font-size:15px;
     text-align:center;
-    height:30px;
-    line-height:30px;
+    height:25px;
+    line-height:25px;
 }
 
-#board table#question-list tr
+#board table#question-list tr.problem_tr
 {
     border-bottom:1px solid rgb(171,171,171);
+}
+
+#board table#question-list tr.block_tr td
+{
+    height:26px;
+    background:rgb(240,240,240);
+}
+
+#board table#question-list tr.problem_tr:hover td
+{
+    background:rgb(240,144,70);
 }
 
 #board table#question-list td
 {
     background:white;
+    cursor:default;
 }
 
 #board table#question-list td p
 {
     font-size:15px;
     text-align:center;
-    height:20px;
-    line-height:20px;
+    height:25px;
+    line-height:25px;
 }
 
 #board p#upload
@@ -61,7 +73,7 @@
     text-decoration:none;
     position:absolute;
     right:0px;
-    bottom:0px;
+    bottom:35px;
 }
 
 #board p#upload:hover
@@ -73,7 +85,7 @@
 {
     position:absolute;
     right:0px;
-    bottom:0px;
+    bottom:35px;
     width:700px;
     height:300px;
     background:white;
@@ -151,4 +163,158 @@
 #upload-window p#upload-button:hover
 {
     background:rgb(82,82,82);
+}
+
+#page-contain
+{
+    margin-top:10px;
+    width:auto;
+    float:left;
+    height:20px;
+}
+
+#page-contain p
+{
+    cursor:default;
+    float:left;
+    font-size:15px;
+    line-height:15px;
+    margin:0px 5px;
+    color:black;
+}
+
+#page-contain p.page
+{
+    cursor:pointer;
+    color:rgb(172,172,172);
+}
+
+#page-contain p.page:hover
+{
+    color:black;
+}
+
+#search-form
+{
+    position:absolute;
+    bottom:0px;
+    width:300px;
+    height:30px;
+    right:350px;
+}
+
+#search-form input[type=text]
+{
+    float:left;
+    width:200px;
+    height:21px;
+    font-size:15px;
+    line-height:21px;
+}
+
+#search-form input[type=submit]
+{
+    float:left;
+    width:80px;
+    height:27px;
+    font-size:15px;
+    margin-left:10px;
+    line-height:25px;
+    border:none;
+}
+
+#search-form input[type=submit]:hover
+{
+    background:rgb(240,144,70);
+}
+
+#show
+{
+    margin:100px auto;
+    width:960px;
+    background:rgb(240,240,240);
+    padding:20px;
+    border-radius:20px;
+    overflow:auto;
+}
+
+#show table
+{
+    border-collapse:collapse;
+    border-spacing:0px;
+}
+
+#show table th,
+#show table td
+{
+    border:1px solid black;
+}
+
+#show table th
+{
+    width:100px;
+    text-align:center;
+    height:30px;
+    line-height:30px;
+    font-weight:bold;
+}
+
+#show table td
+{
+    width:120px;
+    text-align:center;
+    height:30px;
+    line-height:30px;
+}
+
+#show table td#title-td
+{
+    width:420px;
+}
+
+#show table td#problem
+{
+    height:auto;
+}
+
+#show iframe
+{
+    position:relative;
+    margin:30px auto;
+    width:auto;
+    height:auto;
+}
+
+#show p.button
+{
+    width:100px;
+    height:30px;
+    font-size:18px;
+    float:right;
+    background:rgb(171,171,171);
+    border-radius:5px;
+    color:white;
+    margin-top:10px;
+    text-align:center;
+    line-height:30px;
+    cursor:default;
+    text-decoration:none;
+    position:relative;
+}
+
+#show p.button:hover
+{
+    background:rgb(82,82,82);
+}
+
+#show p.left
+{
+    float:left;
+    margin-right:20px;
+}
+
+#show p.right
+{
+    float:right;
+    margin-left:20px;
 }
