@@ -125,7 +125,7 @@ class HEqGrammar(Grammar):
 		(Kwd('sqrt') | Kwd('root')) >> atom
 	)
 	lim_atom = Kwd('lim') << '_' << atom
-	matrix_atom = (Kwd('pmatrix') | Kwd('dmatrix') | Kwd('bmatrix') | Kwd('cases')) << atom
+	matrix_atom = (Kwd('pmatrix') | Kwd('dmatrix') | Kwd('bmatrix') | Kwd('cases')) << '{' << expr << '}'
 	paren_atom = '{' + expr + '}'
 	concat_atom = atom << atom
 	atom = Prio(
@@ -158,13 +158,13 @@ def conv(tree):
 		return "\\lim_{%s}" % tree[3]
 	if nt is G.matrix_atom:
 		if tree[1] == 'pmatrix' or tree[1] == 'bmatrix':
-			return "\\begin{%s} %s \\end{%s}" % (tree[1], tree[2], tree[1])
+			return "\\begin{%s} %s \\end{%s}" % (tree[1], tree[3], tree[1])
 		elif tree[1] == 'dmatrix':
-			return "\\begin{vmatrix} %s \\end{vmatrix}" % tree[2]
+			return "\\begin{vmatrix} %s \\end{vmatrix}" % tree[3]
 		elif tree[1] == 'cases':
-			return "\\left\\{\\begin{matrix} %s \\end{matrix}\\right." % tree[2]
+			return "\\left\\{\\begin{matrix} %s \\end{matrix}\\right." % tree[3]
 		else:
-			return "\\begin{matrix} %s \\end{matrix}" % tree[2]
+			return "\\begin{matrix} %s \\end{matrix}" % tree[3]
 	if nt is G.concat_atom:
 		return "%s%s" % (tree[1], tree[2])
 	if nt is G.paren_atom:
