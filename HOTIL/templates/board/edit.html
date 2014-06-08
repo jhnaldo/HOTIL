@@ -16,8 +16,10 @@ $(document).ready(function(){
 			sel = window.getSelection();
 			if(sel.getRangeAt && sel.rangeCount){
 				range = sel.getRangeAt(0);
-				if(range.commonAncestorContainer.id != 'editor'
-					&& range.commonAncestorContainer.parentElement.id != 'editor')
+				e = range.commonAncestorContainer;
+				if(e.id != 'editor'
+					&& e.parentElement.id != 'editor'
+					&& e.parentElement.parentElement.id != 'editor')
 					return false;
 				range.deleteContents();
 				e = $("<span class='tex'/>").mathquill('editable').click(function(){
