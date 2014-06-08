@@ -127,10 +127,11 @@ class HEqGrammar(Grammar):
 		(Kwd('sqrt') | Kwd('root')) >> atom
 	)
 	lim_atom = Kwd('lim') << '_' << atom
+	matrix_atom = (Kwd('pmatrix') | Kwd('dmatrix') | Kwd('bmatrix') | Kwd('cases')) << '{' << expr << '}'
 	paren_atom = '{' + expr + '}'
 	concat_atom = atom << atom
 	atom = Prio(
-		paren_atom | frac_atom | root_atom | lim_atom,
+		paren_atom | frac_atom | root_atom | matrix_atom | lim_atom,
 		T.value | T.u_op,
 		concat_atom
 	)
@@ -138,7 +139,11 @@ class HEqGrammar(Grammar):
 	expr = Prio(
 		s_atom,
 		T.op >> THIS,
-		THIS << T.op << THIS
+		THIS << T.op << THIS,
+		THIS << '&' << THIS,
+		THIS << '&',
+		THIS << '#' << THIS,
+		THIS << '#'
 	)
 	START = expr
 
@@ -153,6 +158,15 @@ def conv(tree):
 			return "\\sqrt[%s]%s" % (tree[2], tree[4])
 	if nt is G.lim_atom:
 		return "\\lim_{%s}" % tree[3]
+	if nt is G.matrix_atom:
+		if tree[1] == 'pmatrix' or tree[1] == 'bmatrix':
+			return "\\begin{%s} %s \\end{%s}" % (tree[1], tree[3], tree[1])
+		elif tree[1] == 'dmatrix':
+			return "\\begin{vmatrix} %s \\end{vmatrix}" % tree[3]
+		elif tree[1] == 'cases':
+			return "\\left\\{\\begin{matrix} %s \\end{matrix}\\right." % tree[3]
+		else:
+			return "\\begin{matrix} %s \\end{matrix}" % tree[3]
 	if nt is G.concat_atom:
 		return "%s%s" % (tree[1], tree[2])
 	if nt is G.paren_atom:
@@ -170,13 +184,18 @@ def conv(tree):
 			return "\\%s " % tree[1]
 		if tree[1] == 'ALPHA' or tree[1] == 'BETA' or tree[1] == 'GAMMA' or tree[1] == 'DELTA':
 			return "\\%s%s " % (tree[1][0], tree[1][1:].lower())
-		if tl == 'times' or tl == 'therefore' or tl == 'geq' or tl == 'ge' or tl == 'leq' or tl == 'le' or tl == 'neq' or tl == 'ne':
+		if (
+			tl == 'times' or tl == 'therefore' or tl == 'geq' or tl == 'ge' or tl == 'leq' or tl == 'le' or tl == 'neq' or tl == 'ne' or
+			tl == 'dot'
+		):
 			return "\\%s " % tl
 		if tl == 'divide' or tl == 'div':
 			return '\div '
 		return tree[1]
 	if nt is G.START:
 		return tree[1]
+	if tree[1] == '#':
+		return "\\\\"
 	if tree[1] == '%':
 		return '\% '
 	if tree[1] == '`':

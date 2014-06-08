@@ -6,12 +6,8 @@
 $(document).ready(function(){
     $("#problem span.tex").each(function(){
         var tex = $(this).text();
-        $(this).text('\\('+tex+'\\)');
+        $(this).text('\\(\\displaystyle{'+tex+'}\\)');
         MathJax.Hub.Queue(['Typeset', MathJax.Hub, this]);
-        MathJax.Hub.Config({
-            extensions: ["tex2jax.js"],
-            "HTML-CSS": { scale: 120}
-        });
     });
 });
 </script>
