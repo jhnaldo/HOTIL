@@ -199,7 +199,7 @@ def HWPtoText(filename):
 			if p[0] is Text:
 				l.append(escape(p[1]['text']))
 			elif p[0] is EqEdit:
-				l.append("$%s$" % escape(e[ei]))
+				l.append("<span class='tex'>%s</span>" % escape(e[ei]))
 				ei += 1
 		else:
 			if p[0] is Paragraph:
