@@ -97,10 +97,10 @@ def Kwd(k):
     return Keyword(k, case=False)
 
 class HEqGrammar(Grammar):
-<<<<<<< HEAD
     class T(TokenRegistry):
-        value = Token(re="[0-9A-Za-z()]+")
+        value = Token(re="[0-9A-Za-z.]+")
         op = Tokens("+- -+ -> + - * / = != < > ,")
+        u_op = Tokens("% ( ) `")
     expr = Ref("expr")
     atom = Ref("atom")
     frac_atom = atom << Kwd('over') << atom
@@ -113,8 +113,7 @@ class HEqGrammar(Grammar):
     concat_atom = atom << atom
     atom = Prio(
         paren_atom | frac_atom | root_atom | lim_atom,
-        T.value,
-        '`',
+        T.value | T.u_op,
         concat_atom
     )
     s_atom = atom + Repeat('_' + atom) + Repeat('^' + atom)
@@ -126,7 +125,6 @@ class HEqGrammar(Grammar):
     START = expr
 
 def conv(tree):
-    # print(tree)
     nt, G = tree[0], HEqGrammar
     if nt is G.frac_atom:
         return "\\frac %s %s" % (tree[1], tree[3])
@@ -161,6 +159,8 @@ def conv(tree):
         return tree[1]
     if nt is G.START:
         return tree[1]
+    if tree[1] == '%':
+        return '\%'
     if tree[1] == '`':
         return '\ '
     if tree[1] == '+-':
@@ -170,109 +170,34 @@ def conv(tree):
     if tree[1] == '->':
         return "\\to"
     return tree[1]
-=======
-	class T(TokenRegistry):
-		value = Token(re="[0-9A-Za-z.]+")
-		op = Tokens("+- -+ -> + - * / = != < > ,")
-		u_op = Tokens("% ( ) `")
-	expr = Ref("expr")
-	atom = Ref("atom")
-	frac_atom = atom << Kwd('over') << atom
-	root_atom = Prio(
-		(Kwd('sqrt') | Kwd('root')) >> atom >> Kwd('of') >> atom,
-		(Kwd('sqrt') | Kwd('root')) >> atom
-	)
-	lim_atom = Kwd('lim') << '_' << atom
-	paren_atom = '{' + expr + '}'
-	concat_atom = atom << atom
-	atom = Prio(
-		paren_atom | frac_atom | root_atom | lim_atom,
-		T.value | T.u_op,
-		concat_atom
-	)
-	s_atom = atom + Repeat('_' + atom) + Repeat('^' + atom)
-	expr = Prio(
-		s_atom,
-		T.op >> THIS,
-		THIS << T.op << THIS
-	)
-	START = expr
-
-def conv(tree):
-	nt, G = tree[0], HEqGrammar
-	if nt is G.frac_atom:
-		return "\\frac %s %s" % (tree[1], tree[3])
-	if nt is G.root_atom:
-		if len(tree) == 3:
-			return "\\sqrt %s" % tree[2]
-		if len(tree) == 5:
-			return "\\sqrt[%s] %s" % (tree[2], tree[4])
-	if nt is G.lim_atom:
-		return "\\lim_{%s}" % tree[3]
-	if nt is G.concat_atom:
-		return "%s %s" % (tree[1], tree[2])
-	if nt is G.paren_atom:
-		return "{%s}" % tree[2]
-	if nt is G.s_atom:
-		return "".join(tree[1:])
-	if nt is G.expr:
-		if len(tree) == 3:
-			return "%s%s" % (tree[1], tree[2])
-		if len(tree) == 4:
-			return "%s%s%s" % (tree[1], tree[2], tree[3])
-	if nt is G.T.value:
-		tl = tree[1].lower()
-		if tree[1] == 'alpha' or tree[1] == 'beta' or tree[1] == 'gamma' or tree[1] == 'delta':
-			return "\\%s" % tree[1]
-		if tree[1] == 'ALPHA' or tree[1] == 'BETA' or tree[1] == 'GAMMA' or tree[1] == 'DELTA':
-			return "\\%s%s" % (tree[1][0], tree[1][1:].lower())
-		if tl == 'times' or tl == 'therefore':
-			return "\\%s" % tl
-		if tl == 'divide' or tl == 'div':
-			return '\div'
-		return tree[1]
-	if nt is G.START:
-		return tree[1]
-	if tree[1] == '%':
-		return '\%'
-	if tree[1] == '`':
-		return '\ '
-	if tree[1] == '+-':
-		return '\pm'
-	if tree[1] == '-+':
-		return '\mp'
-	if tree[1] == '->':
-		return "\\to"
-	return tree[1]
->>>>>>> 09fc766ef4275f41b4c837fea82371b0200ae0df
 
 def HEq2TeX(eq):
     return HEqGrammar.parse(eq.replace(u"±", "+-").replace(u"÷", " DIVIDE "), conv)
 
 def HWPtoText(filename):
-	f = Hwp5File(filename)
-	l = []
-	e, ei = [], 0
-	for section in f.bodytext.sections:
-		for record in section.records():
-			if record['tagname'] == 'HWPTAG_CTRL_EQEDIT':
-				s = record['payload']
-				eql = ord(s[4]) + 256*ord(s[5])
-				eq = []
-				for i in xrange(eql):
-					eq.append(unichr(ord(s[6+i*2])+256*ord(s[7+i*2])))
-				e.append(HEq2TeX(''.join(eq)))
-	for o in f.events():
-		p = o[1]
-		if o[0] is STARTEVENT:
-			if p[0] is Paragraph:
-				pass # l.append("<p>")
-			if p[0] is Text:
-				l.append(p[1]['text'])
-			elif p[0] is EqEdit:
-				l.append("$%s$" % e[ei])
-				ei += 1
-		else:
-			if p[0] is Paragraph:
-				l.append("\n") # l.append("</p>\n")
-	return ''.join(l)
+    f = Hwp5File(filename)
+    l = []
+    e, ei = [], 0
+    for section in f.bodytext.sections:
+        for record in section.records():
+            if record['tagname'] == 'HWPTAG_CTRL_EQEDIT':
+                s = record['payload']
+                eql = ord(s[4]) + 256*ord(s[5])
+                eq = []
+                for i in xrange(eql):
+                    eq.append(unichr(ord(s[6+i*2])+256*ord(s[7+i*2])))
+                e.append(HEq2TeX(''.join(eq)))
+    for o in f.events():
+        p = o[1]
+        if o[0] is STARTEVENT:
+            if p[0] is Paragraph:
+                pass # l.append("<p>")
+            if p[0] is Text:
+                l.append(p[1]['text'])
+            elif p[0] is EqEdit:
+                l.append("$%s$" % e[ei])
+                ei += 1
+        else:
+            if p[0] is Paragraph:
+                l.append("\n") # l.append("</p>\n")
+    return ''.join(l)
