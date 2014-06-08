@@ -6,7 +6,15 @@
 <script language="javascript" src="{{ MEDIA_URL }}js/mathquill.min.js"></script>
 <script>
 $(document).ready(function(){
-    $('span').mathquill('editable');
+    var last_clicked = null;
+	$("span.tex").mathquill('editable').click(function(){
+		last_clicked = this;
+	});
+	$("#editor-buttons button").click(function(e){
+		if(last_clicked == null) return;
+		$(last_clicked).mathquill('cmd', $(this).data('insert'));
+		return false;
+	});
 });
 </script>
 {% endblock %}
@@ -27,6 +35,21 @@ $(document).ready(function(){
                 <th><p>DATE</p></td>
                 <td><p>{{ problem.created|date:"Y-m-d" }}</p></td>
             </tr>
+			<tr>
+				<td id="editor-buttons" colspan=6>
+					<button data-insert="\sqrt">sqrt</button>
+					<button data-insert="\nthroot">n-root</button>
+					<button data-insert="\frac">a/b</button>
+					<button data-insert="\superscript">a^b</button>
+					<button data-insert="\subscript">a_b</button>
+					<button data-insert="\overline">overline</button>
+					<button data-insert="\underline">underline</button>
+					<button data-insert="\vec">vec(a)</button>
+					<button data-insert="\alpha">&alpha;</button>
+					<button data-insert="\beta">&beta;</button>
+					<button data-insert="\gamma">&gamma;</button>
+				</td>
+			</tr>
             <tr>
                 <td id="problem" colspan=6>
                     <!--<div contenteditable=true>-->
@@ -37,7 +60,7 @@ $(document).ready(function(){
             </tr>
         </table>
         <p class='button left' onclick="window.location='/problem/show/?id={{ problem.id }}'">cancel</p>
-        <p class='button right' onclick="submit();">edit</p>
+        <p class='button right' onclick="submit();">save</p>
     </form>
 </div>
 {% endblock %}
