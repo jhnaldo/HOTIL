@@ -275,14 +275,15 @@
 #show table td#problem
 {
     height:auto;
+    padding:20px;
 }
 
-#show iframe
+#show td#problem p
 {
-    position:relative;
-    margin:30px auto;
-    width:auto;
-    height:auto;
+    text-align:left;
+    font-size:15px;
+    line-height:20px;
+    height:20px;
 }
 
 #show p.button

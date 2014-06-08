@@ -4,13 +4,6 @@
 <script language="javascript" src="{{ MEDIA_URL }}js/board.js"></script>
 <script>
 $(document).ready(function(){
-    $('iframe').load(function() {
-        var frame = $(this)[0];
-        var doc = frame.contentDocument;
-        var html = doc.getElementsByTagName('html')[0];
-        $(this).height(html.offsetHeight+"px");
-        $(this).width("900px");
-    });
 });
 </script>
 {% endblock %}
@@ -27,7 +20,7 @@ $(document).ready(function(){
         </tr>
         <tr>
             <td id="problem" colspan=6>
-            <iframe class="problem" src="{{ MEDIA_URL }}problem/{{ problem.html }}" frameborder="0" scrolling="no"></iframe>
+                {{ problem.html|safe }}
             </td>
         </tr>
     </table>

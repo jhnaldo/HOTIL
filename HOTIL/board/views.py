@@ -35,15 +35,9 @@ def upload(request):
             hwp = HWPFile(hwp=f)
             hwp.save()
 
-            problem = Problem(title=title,writer=user)
+            html = HWPtoText(settings.MEDIA_ROOT+'/hwp/test.hwp')
+            problem = Problem(title=title,writer=user,html=html)
             problem.save()
-            filename = str(problem.id)+'.html'
-            problem.html=filename
-            problem.save()
-
-            html_file = codecs.open(settings.MEDIA_ROOT+'/problem/'+filename,'w','utf-8')
-            html_file.write(HWPtoText(settings.MEDIA_ROOT+'/hwp/test.hwp'))
-            html_file.close()
 
             os.remove(settings.MEDIA_ROOT+'/hwp/test.hwp')
             hwp.delete()
