@@ -4,37 +4,57 @@ function unfold_upload(){
 
 function fold_upload(){
     $('#board #upload-window').fadeOut();
-    upload_files = new FormData();
+    upload_files = [];
     file_num = 0;
     $('#zbasic p').remove();
 }
 
-function upload(){
-    $.ajax({
-        url: '/problem/upload/',
-        data: upload_files,
-        cache: false,
-        contentType: false,
-        processData: false,
-        type: 'POST',
-        success: function(data){
-            if(data==-1){
-                alert('잘못된 파일입니다.');
-            }else{
-                alert('업로드 되었습니다.');
+function upload(k,e){
+    $('#upload-window-wrap').css('height', '300px');
+    if(upload_files.length>0){
+        $.ajax({
+            url: '/problem/upload/',
+            data: upload_files[0],
+            cache: false,
+            contentType: false,
+            processData: false,
+            type: 'POST',
+            success: function(data){
+                if(data==-1){
+                    $($('fieldset p')[k]).css('background','red');
+                    e = e+1;
+                }else{
+                    $($('fieldset p')[k]).css('background','green');
+                }
+                $($('fieldset p')[k]).css('color','white');
+                upload_files = upload_files.slice(1);
+                upload(k+1,e);
             }
-            fold_upload();
-            pagenum=1;
-            page_load();
+        });
+    }else{
+        if(k==0){
+            alert('파일을 선택해 주세요.');
+            return;
         }
-    });
+        if(e>0){
+            alert(e+'개의 파일을 업로드 하는데 실패하였고, '+(k-e)+'개의 파일을 업로드 하였습니다.');
+        }else{
+            alert(k+'개의 파일을 업로드를 완료하였습니다.');
+        }
+        $('#upload-window-wrap').css('height', '');
+        fold_upload();
+        pagenum=1;
+        page_load();
+    }
 }
 
 function handleFileSelect(evt){
     var files = evt.target.files;
     var length = files.length;
     for(i=0;i<length;i++){
-        upload_files.append('file-'+file_num,files[i]);
+        fd = new FormData();
+        fd.append('file',files[i]);
+        upload_files.push(fd);
         var zbasic = $('#zbasic');
         var p = $('<p>').text(files[i].name);
         p.appendTo(zbasic);

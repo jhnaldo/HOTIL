@@ -81,6 +81,16 @@
     background:rgb(82,82,82);
 }
 
+#board div#upload-window-wrap
+{
+    position:absolute;
+    right:0px;
+    bottom:35px;
+    width:700px;
+    margin:3px;
+    z-index:2;
+}
+
 #board div#upload-window
 {
     position:absolute;
@@ -335,6 +345,7 @@
 {
     border-collapse:collapse;
     border-spacing:0px;
+    background:white;
 }
 
 #edit table th,
@@ -370,6 +381,7 @@
     height:25px;
     width:400px;
     font-size:15px;
+    text-align:center;
 }
 
 #edit table td#problem

@@ -5,7 +5,7 @@
 <script language="javascript" src="{{ MEDIA_URL }}js/filedrop.js"></script>
 <script>
 $(document).ready(function(){
-    upload_files = new FormData();
+    upload_files = [];
     file_num = 0;
 
     var file_input = $('#zbasic input[type=file]')[0];
@@ -32,6 +32,7 @@ $(document).ready(function(){
     </table>
     {% if user.is_staff %}
     <p id="upload" onclick="unfold_upload();">upload</p>
+    <div id="upload-window-wrap"></div>
     <div id="upload-window">
         <p class="descript">Please upload porblem files.</p>
         <p class="descript">(drag-and-drop is possible.)</p>
@@ -39,7 +40,7 @@ $(document).ready(function(){
             <input type="file" multiple>
         </fieldset>
         <img id="close" src="/media/image/x.png" onclick="fold_upload();">
-        <p id="upload-button" onclick="upload();">upload</p>
+        <p id="upload-button" onclick="upload(0,0);">upload</p>
     </div>
     {% endif %}
     <form action="/problem/search/" method="POST" id="search-form">
