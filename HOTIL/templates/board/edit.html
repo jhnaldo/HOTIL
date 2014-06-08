@@ -11,10 +11,27 @@ $(document).ready(function(){
 		last_clicked = this;
 	});
 	$("#editor-buttons button").click(function(e){
-		if(last_clicked == null) return;
-		$(last_clicked).mathquill('cmd', $(this).data('insert'));
+		var sel, range, e, cmd_insert = $(this).data('insert');
+		if(cmd_insert == 'new'){
+			sel = window.getSelection();
+			if(sel.getRangeAt && sel.rangeCount){
+				range = sel.getRangeAt(0);
+				if(range.commonAncestorContainer.id != 'editor'
+					&& range.commonAncestorContainer.parentElement.id != 'editor')
+					return false;
+				range.deleteContents();
+				e = $("<span class='tex'/>").mathquill('editable').click(function(){
+					last_clicked = this;
+				});
+				range.insertNode(e[0]);
+				e.mathquill('redraw');
+			}
+		}else{
+			if(last_clicked == null) return false;
+			$(last_clicked).mathquill('cmd', cmd_insert);
+		}
 		return false;
-	});
+	}).mousedown(function(e){e.preventDefault()});
 });
 </script>
 {% endblock %}
@@ -37,6 +54,7 @@ $(document).ready(function(){
             </tr>
 			<tr>
 				<td id="editor-buttons" colspan=6>
+					<button data-insert="new">new eq</button>
 					<button data-insert="\sqrt">sqrt</button>
 					<button data-insert="\nthroot">n-root</button>
 					<button data-insert="\frac">a/b</button>
@@ -48,6 +66,7 @@ $(document).ready(function(){
 					<button data-insert="\alpha">&alpha;</button>
 					<button data-insert="\beta">&beta;</button>
 					<button data-insert="\gamma">&gamma;</button>
+					<button data-insert="\times">&times;</button>
 				</td>
 			</tr>
             <tr>
