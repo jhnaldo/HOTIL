@@ -35,9 +35,7 @@ def upload(request):
             hwp.save()
 
             #TODO parse
-            print 'here'
             print(HWPtoText(settings.MEDIA_ROOT+'/hwp/test.hwp'))
-            print 'here'
 
             html='test.htm'
             problem = Problem(title=title,writer=user,html=html)
