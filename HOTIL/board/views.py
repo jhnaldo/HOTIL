@@ -178,7 +178,7 @@ def conv(tree):
 	if tree[1] == '%':
 		return '\% '
 	if tree[1] == '`':
-		return '\ '
+		return ' ' # return '\ '
 	if tree[1] == '+-':
 		return '\pm '
 	if tree[1] == '-+':

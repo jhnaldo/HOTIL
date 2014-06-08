@@ -2,10 +2,16 @@
 {% block header %}
 <link rel="stylesheet" type="text/css" href="{{MEDIA_URL}}css/board.css" />
 <script language="javascript" src="{{ MEDIA_URL }}js/board.js"></script>
-<script>
+<script type="text/javascript">
 $(document).ready(function(){
+	$("#problem span.tex").each(function(){
+		var tex = $(this).text();
+		$(this).text('\\('+tex+'\\)');
+		MathJax.Hub.Queue(['Typeset', MathJax.Hub, this]);
+	});
 });
 </script>
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 {% endblock %}
 {% block content %}
 <div id="show">
