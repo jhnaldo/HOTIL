@@ -242,6 +242,7 @@
 {
     border-collapse:collapse;
     border-spacing:0px;
+    background:white;
 }
 
 #show table th,
@@ -375,6 +376,14 @@
 {
     height:auto;
     padding:20px;
+}
+
+#edit td#problem p
+{
+    text-align:left;
+    font-size:15px;
+    line-height:20px;
+    min-height:20px;
 }
 
 #edit p.button

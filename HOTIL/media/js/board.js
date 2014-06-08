@@ -147,3 +147,13 @@ function del_problem(id){
         });
     }
 }
+
+function submit(){
+    $('span').each(function(k,obj){
+        var latex = $(obj).mathquill('latex');
+        $(obj).mathquill('revert');
+        obj.innerText = latex;
+    })
+    $('#problem-html')[0].value = $('#editor')[0].innerHTML.trim();
+    $('form')[0].submit();
+}

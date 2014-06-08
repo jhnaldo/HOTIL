@@ -94,9 +94,11 @@ def edit(request):
     if request.method == 'POST':
         problem_id = int(request.POST.get('id',0))
         title = request.POST.get('title','')
+        html = request.POST.get('html','')
 
         problem = Problem.objects.get(id=problem_id)
         problem.title = title
+        problem.html = html
         problem.save()
         return HttpResponseRedirect('/problem/show/?id='+str(problem.id))
     else:

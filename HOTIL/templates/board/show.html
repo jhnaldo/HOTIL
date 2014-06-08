@@ -4,11 +4,15 @@
 <script language="javascript" src="{{ MEDIA_URL }}js/board.js"></script>
 <script type="text/javascript">
 $(document).ready(function(){
-	$("#problem span.tex").each(function(){
-		var tex = $(this).text();
-		$(this).text('\\('+tex+'\\)');
-		MathJax.Hub.Queue(['Typeset', MathJax.Hub, this]);
-	});
+    $("#problem span.tex").each(function(){
+        var tex = $(this).text();
+        $(this).text('\\('+tex+'\\)');
+        MathJax.Hub.Queue(['Typeset', MathJax.Hub, this]);
+        MathJax.Hub.Config({
+            extensions: ["tex2jax.js"],
+            "HTML-CSS": { scale: 120}
+        });
+    });
 });
 </script>
 <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
