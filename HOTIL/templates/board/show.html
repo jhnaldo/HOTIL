@@ -25,7 +25,7 @@ $(document).ready(function(){
         </tr>
     </table>
     <p class='button left' onclick="window.location='/problem/'">list</p>
-    <p class='button right'>edit</p>
+    <p class='button right' onclick="window.location='/problem/edit/?id={{ problem.id }}'">edit</p>
     <p class='button right' onclick="del_problem({{ problem.id }});">delete</p>
 </div>
 {% endblock %}

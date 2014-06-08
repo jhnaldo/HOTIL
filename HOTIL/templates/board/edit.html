@@ -1,0 +1,40 @@
+{% extends 'layout.html' %}
+{% block header %}
+<link rel="stylesheet" type="text/css" href="{{MEDIA_URL}}css/board.css" />
+<script language="javascript" src="{{ MEDIA_URL }}js/board.js"></script>
+<script language="javascript" src="{{ MEDIA_URL }}js/mathquill.min.js"></script>
+<script>
+$(document).ready(function(){
+});
+</script>
+{% endblock %}
+{% block content %}
+<div id="edit">
+    <form action="/problem/edit/" method='POST'>
+        {% csrf_token %}
+        <input type="hidden" name="id" value="{{ problem.id }}">
+        <table>
+            <tr>
+                <th><p>TITLE</p></td>
+                <td id="title-td">
+                    <input type="text" name="title" value="{{ problem.title }}">
+                </td>
+                <th><p>WRITER</p></td>
+                <td><p>{{ problem.writer.first_name }}</p></td>
+                <th><p>DATE</p></td>
+                <td><p>{{ problem.created|date:"Y-m-d" }}</p></td>
+            </tr>
+            <tr>
+                <td id="problem" colspan=6>
+                    <!--<div contenteditable=true>-->
+                    <div>
+                        <span>abc</span>
+                    </div>
+                </td>
+            </tr>
+        </table>
+        <p class='button left' onclick="window.location='/problem/show/?id={{ problem.id }}'">cancel</p>
+        <p class='button right' onclick="$('form')[0].submit();">edit</p>
+    </form>
+</div>
+{% endblock %}

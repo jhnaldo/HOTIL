@@ -18,7 +18,11 @@ function upload(){
         processData: false,
         type: 'POST',
         success: function(data){
-            alert('업로드 되었습니다.');
+            if(data==-1){
+                alert('잘못된 파일입니다.');
+            }else{
+                alert('업로드 되었습니다.');
+            }
             fold_upload();
             pagenum=1;
             page_load();

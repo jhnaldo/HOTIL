@@ -35,7 +35,13 @@ def upload(request):
             hwp = HWPFile(hwp=f)
             hwp.save()
 
-            html = HWPtoText(settings.MEDIA_ROOT+'/hwp/test.hwp')
+            try:
+                html = HWPtoText(settings.MEDIA_ROOT+'/hwp/test.hwp')
+            except:
+                print 'here'
+                os.remove(settings.MEDIA_ROOT+'/hwp/test.hwp')
+                hwp.delete()
+                return HttpResponse(-1)
             problem = Problem(title=title,writer=user,html=html)
             problem.save()
 
@@ -83,6 +89,22 @@ def delete(request):
         return HttpResponse(0)
     else:
         return HttpResponseRedirect('/')
+
+def edit(request):
+    if request.method == 'POST':
+        problem_id = int(request.POST.get('id',0))
+        title = request.POST.get('title','')
+
+        problem = Problem.objects.get(id=problem_id)
+        problem.title = title
+        problem.save()
+        return HttpResponseRedirect('/problem/show/?id='+str(problem.id))
+    else:
+        problem_id = int(request.GET.get('id',0))
+        problem = Problem.objects.get(id=problem_id)
+        return render_to_response('board/edit.html', {
+            'problem':problem,
+        }, context_instance=RequestContext(request))
 
 
 ##################################      PARSER

@@ -7,4 +7,5 @@ urlpatterns = patterns('',
     (ur'^page/$', 'board.views.page'),
     (ur'^show/$', 'board.views.show'),
     (ur'^delete/$', 'board.views.delete'),
+    (ur'^edit/$', 'board.views.edit'),
 )

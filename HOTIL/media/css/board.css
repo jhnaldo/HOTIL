@@ -283,7 +283,7 @@
     text-align:left;
     font-size:15px;
     line-height:20px;
-    height:20px;
+    min-height:20px;
 }
 
 #show p.button
@@ -315,6 +315,97 @@
 }
 
 #show p.right
+{
+    float:right;
+    margin-left:20px;
+}
+
+#edit
+{
+    margin:100px auto;
+    width:960px;
+    background:rgb(240,240,240);
+    padding:20px;
+    border-radius:20px;
+    overflow:auto;
+}
+
+#edit table
+{
+    border-collapse:collapse;
+    border-spacing:0px;
+}
+
+#edit table th,
+#edit table td
+{
+    border:1px solid black;
+}
+
+#edit table th
+{
+    width:100px;
+    text-align:center;
+    height:30px;
+    line-height:30px;
+    font-weight:bold;
+}
+
+#edit table td
+{
+    width:120px;
+    text-align:center;
+    height:30px;
+    line-height:30px;
+}
+
+#edit table td#title-td
+{
+    width:420px;
+}
+
+#edit table td#title-td input[type=text]
+{
+    height:25px;
+    width:400px;
+    font-size:15px;
+}
+
+#edit table td#problem
+{
+    height:auto;
+    padding:20px;
+}
+
+#edit p.button
+{
+    width:100px;
+    height:30px;
+    font-size:18px;
+    float:right;
+    background:rgb(171,171,171);
+    border-radius:5px;
+    color:white;
+    margin-top:10px;
+    text-align:center;
+    line-height:30px;
+    cursor:default;
+    text-decoration:none;
+    position:relative;
+}
+
+#edit p.button:hover
+{
+    background:rgb(82,82,82);
+}
+
+#edit p.left
+{
+    float:left;
+    margin-right:20px;
+}
+
+#edit p.right
 {
     float:right;
     margin-left:20px;
