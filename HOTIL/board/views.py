@@ -7,6 +7,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.conf import settings
 from django.utils import simplejson as json
 import os
+import codecs
 
 # for parsing
 from lrparsing import *
@@ -34,14 +35,13 @@ def upload(request):
             hwp = HWPFile(hwp=f)
             hwp.save()
 
-
             problem = Problem(title=title,writer=user)
             problem.save()
             filename = str(problem.id)+'.html'
             problem.html=filename
             problem.save()
 
-            html_file = open(settings.MEDIA_ROOT+'/problem/'+filename,'w')
+            html_file = codecs.open(settings.MEDIA_ROOT+'/problem/'+filename,'w','utf-8')
             html_file.write(HWPtoText(settings.MEDIA_ROOT+'/hwp/test.hwp'))
             html_file.close()
 
