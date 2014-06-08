@@ -7,7 +7,9 @@ $(document).ready(function(){
     $('iframe').load(function() {
         var frame = $(this)[0];
         var doc = frame.contentDocument;
-        $(this).height(doc.getElementById('problem').offsetHeight+"px");
+        var html = doc.getElementsByTagName('html')[0];
+        $(this).height(html.offsetHeight+"px");
+        $(this).width("900px");
     });
 });
 </script>
